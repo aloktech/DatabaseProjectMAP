@@ -1,12 +1,10 @@
 package com.imos.dp;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.persist.jpa.JpaPersistModule;
-import com.imos.dp.model.FourVehicle;
+import org.hibernate.Session;
+
 import com.imos.dp.model.Level;
-import com.imos.dp.model.TwoVehicle;
-import com.imos.dp.model.Vehicle;
+import com.imos.dp.model.User;
+import com.imos.dp.util.HibernateUtility;
 
 /**
  * @author Pintu
@@ -15,73 +13,37 @@ import com.imos.dp.model.Vehicle;
 public class DatabaseMainFile {
 
 	public DatabaseMainFile() {
-		Injector injector = Guice.createInjector(new JpaPersistModule("SampleDB"));
 		
-		DatabaseManagement dm = injector.getInstance(DatabaseManagement.class);
+		HibernateUtility hu = HibernateUtility.getInstance();
 		
-		Vehicle vehicle = new Vehicle();
-		vehicle.setName("Vehicle");
-		dm.saveVehicle(vehicle);
+		hu.setFilePath("src/main/java/com/imos/dp/model");
+		hu.setDatabaseName("learningdb");
+		hu.configure();
+		hu.createSession();
 		
-		TwoVehicle bike = new TwoVehicle();
-		bike.setName("Bike");
-		bike.setStringleHandle("Bike Handle");
-		dm.saveVehicle(bike);
+		Session session = hu.getSession();
 		
-		FourVehicle car = new FourVehicle();
-		car.setName("Car");
-		car.setStringleWheel("Car Wheel");
-		dm.saveVehicle(car);
+		User user = new User();
+		user.setId(16L);
+		user.setFirstName("Alok2");
+		user.setLastName("Meher233");
 		
-		dm.close();
+		session.getTransaction().begin();
+		//session.persist(user);
+		session.merge(user);
+		//session.getTransaction().commit();
 		
-		//caseOne(dm);
-
-		//findAllLevel();
-		//findAllLevelSize();
-
-		//updateLevelStatusOne();
-
-		//findAllLevel();
-
-		//emf.close();
+		//session.getTransaction().begin();
+		//session.save(user);
+		//session.saveOrUpdate(user);
+		//session.update(user);
+		session.getTransaction().commit();
+		session.flush();
+		session.clear();
+		hu.close(session);
+		
 	}
 
-
-	/**
-	 * @param dm
-	 */
-	private void caseOne(DatabaseManagement dm) {
-		Level level = new Level();
-		level.setLevelName("Level 5");
-		level.setMaxCount(10);
-		level.setPenaltyCount(0);
-		level.setMaxErrorCount(0);
-		dm.addLevel(level);
-
-		level = new Level();
-		level.setLevelName("Level 6");
-		level.setMaxCount(25);
-		level.setPenaltyCount(2);
-		level.setMaxErrorCount(25);
-		dm.addLevel(level);
-
-		level = new Level();
-		level.setLevelName("Level 7");
-		level.setMaxCount(5);
-		level.setPenaltyCount(0);
-		level.setMaxErrorCount(0);
-		dm.addLevel(level);
-
-		level = new Level();
-		level.setLevelName("Certified II");
-		level.setMaxCount(0);
-		level.setPenaltyCount(0);
-		level.setMaxErrorCount(0);
-		dm.addLevel(level);
-	}
-	
-	
 	public static void main(String[] args) {
 
 		new DatabaseMainFile();

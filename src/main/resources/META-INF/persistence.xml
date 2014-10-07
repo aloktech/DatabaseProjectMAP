@@ -13,6 +13,7 @@
 			<property name="hibernate.format_sql" value="true" />
 			<property name="use_sql_comments" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="cache.use_second_level_cache" value="true" />
 
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/learningdb" />
 			<property name="javax.persistence.jdbc.user" value="root" />

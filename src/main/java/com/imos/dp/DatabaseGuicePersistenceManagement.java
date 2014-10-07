@@ -6,11 +6,11 @@ package com.imos.dp;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import lombok.Data;
-
+import com.google.inject.Inject;
+import com.google.inject.persist.PersistService;
+import com.google.inject.persist.Transactional;
 import com.imos.dp.model.Level;
 import com.imos.dp.model.Vehicle;
 
@@ -18,17 +18,23 @@ import com.imos.dp.model.Vehicle;
  * @author Pintu
  *
  */
-@Data
-public class DatabaseManagement {
+public class DatabaseGuicePersistenceManagement {
 
-	private EntityManager em = Persistence.createEntityManagerFactory("SampleDB").createEntityManager();
+	@Inject
+	private EntityManager em;
 
+	private PersistService service;
 
+	@Inject
+	public DatabaseGuicePersistenceManagement(PersistService service) {
+		this.service = service;
+		this.service.start();
+	}
+
+	@Transactional
 	void saveVehicle(Vehicle vehicle) {
 		try {
-			em.getTransaction().begin();
 			em.persist(vehicle);
-			em.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -38,16 +44,23 @@ public class DatabaseManagement {
 	 * 
 	 * @param level
 	 */
+	@Transactional
 	public void addLevel(Level level) {
 		try {
-			em.getTransaction().begin();
 			em.persist(level);
-			em.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		em.close();
+		this.service.stop();
+		super.finalize();
+	}
+
+	@Transactional
 	public void updateLevelStatus() {
 		Level level = null;
 		try {
