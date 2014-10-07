@@ -2,7 +2,6 @@ package com.imos.dp;
 
 import org.hibernate.Session;
 
-import com.imos.dp.model.Level;
 import com.imos.dp.model.User;
 import com.imos.dp.util.HibernateUtility;
 

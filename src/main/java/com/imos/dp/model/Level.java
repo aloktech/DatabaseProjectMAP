@@ -22,27 +22,23 @@ import lombok.Setter;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="dp_level")
+@Getter @Setter
 public class Level implements Serializable {
 	
-	@Getter
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID")
 	private Long id;
 	
-	@Getter @Setter
 	@Column(name="LEVEL_NAME", nullable=false, unique=true)
 	private String levelName;
 	
-	@Getter @Setter
 	@Column(name="MAX_COUNT", nullable=false)
 	private Integer maxCount;
 	
-	@Getter @Setter
 	@Column(name="PENALTY_COUNT", nullable=false)
 	private Integer penaltyCount;
 	
-	@Getter @Setter
 	@Column(name="MAX_ERROR_COUNT", nullable=false)
 	private Integer maxErrorCount;
 	
