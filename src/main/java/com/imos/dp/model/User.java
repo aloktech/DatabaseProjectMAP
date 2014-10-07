@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="user")
+@Table(name="dp_user")
 public class User implements Serializable {
 	
 	@Id

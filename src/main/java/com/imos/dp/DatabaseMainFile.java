@@ -1,148 +1,90 @@
 package com.imos.dp;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.persist.jpa.JpaPersistModule;
+import com.imos.dp.model.FourVehicle;
 import com.imos.dp.model.Level;
+import com.imos.dp.model.TwoVehicle;
+import com.imos.dp.model.Vehicle;
 
 /**
  * @author Pintu
  *
  */
 public class DatabaseMainFile {
-	
-	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("SampleDB");
-	
+
 	public DatabaseMainFile() {
+		Injector injector = Guice.createInjector(new JpaPersistModule("SampleDB"));
 		
+		DatabaseManagement dm = injector.getInstance(DatabaseManagement.class);
+		
+		Vehicle vehicle = new Vehicle();
+		vehicle.setName("Vehicle");
+		dm.saveVehicle(vehicle);
+		
+		TwoVehicle bike = new TwoVehicle();
+		bike.setName("Bike");
+		bike.setStringleHandle("Bike Handle");
+		dm.saveVehicle(bike);
+		
+		FourVehicle car = new FourVehicle();
+		car.setName("Car");
+		car.setStringleWheel("Car Wheel");
+		dm.saveVehicle(car);
+		
+		dm.close();
+		
+		//caseOne(dm);
+
+		//findAllLevel();
+		//findAllLevelSize();
+
+		//updateLevelStatusOne();
+
+		//findAllLevel();
+
+		//emf.close();
+	}
+
+
+	/**
+	 * @param dm
+	 */
+	private void caseOne(DatabaseManagement dm) {
 		Level level = new Level();
-		level.setLevelName("Level 4");
+		level.setLevelName("Level 5");
 		level.setMaxCount(10);
 		level.setPenaltyCount(0);
 		level.setMaxErrorCount(0);
-		addLevel(level);
-		
+		dm.addLevel(level);
+
 		level = new Level();
-		level.setLevelName("Level 3");
+		level.setLevelName("Level 6");
 		level.setMaxCount(25);
 		level.setPenaltyCount(2);
 		level.setMaxErrorCount(25);
-		addLevel(level);
-		
+		dm.addLevel(level);
+
 		level = new Level();
-		level.setLevelName("Level 2");
+		level.setLevelName("Level 7");
 		level.setMaxCount(5);
 		level.setPenaltyCount(0);
 		level.setMaxErrorCount(0);
-		addLevel(level);
-		
+		dm.addLevel(level);
+
 		level = new Level();
-		level.setLevelName("Certified");
+		level.setLevelName("Certified II");
 		level.setMaxCount(0);
 		level.setPenaltyCount(0);
 		level.setMaxErrorCount(0);
-		addLevel(level);
-		
-		findAllLevel();
-		findAllLevelSize();
-		
-		updateLevelStatus();
-		
-		findAllLevel();
-		
-		emf.close();
+		dm.addLevel(level);
 	}
-	/**
-	 * 
-	 */
-	private void updateLevelStatus() {
-		Level level = null;
-		EntityManager em = emf.createEntityManager();
-		try {
-			Query query = em.createQuery("from Level l where l.levelName = :levelName");
-			query.setParameter("levelName", "Level 3");
-			level = (Level) query.getSingleResult();
-			level.setMaxCount(35);
-			
-			EntityTransaction tran = em.getTransaction();
-			try {
-				tran = em.getTransaction();
-				tran.begin();
-				
-				em.merge(level);
-				
-				tran.commit();
-			} catch(Exception e) {
-				tran.rollback();
-				System.out.println(e.getMessage());
-			}
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-		} finally {
-			em.close();
-		}
-		
-	}
-	/**
-	 * @param args
-	 */
+	
+	
 	public static void main(String[] args) {
-		
+
 		new DatabaseMainFile();
 		
 	}
-
-	/**
-	 * 
-	 */
-	private void findAllLevelSize() {
-		EntityManager em = emf.createEntityManager();
-		
-		System.out.println(em.createQuery("from Level l").getResultList().size());
-		
-		em.close();
-	}
-	
-	/**
-	 * 
-	 */
-	private void findAllLevel() {
-		EntityManager em = emf.createEntityManager();
-		
-		@SuppressWarnings("unchecked")
-		List<Level> list = em.createQuery("from Level l").getResultList();
-		for (Level l : list) {
-			System.out.println(l);
-		}
-		
-		em.close();
-	}
-	
-	/**
-	 * 
-	 * @param level
-	 */
-	private void addLevel(Level level) {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tran = null;
-		try {
-			tran = em.getTransaction();
-			tran.begin();
-			
-			em.persist(level);
-			
-			tran.commit();
-		} catch (Exception e) {
-			tran.rollback();
-			System.out.println(e.getMessage());
-		} finally {
-			em.close();
-		}
-	}
-
 }

@@ -21,7 +21,7 @@ import lombok.Setter;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="level")
+@Table(name="dp_level")
 public class Level implements Serializable {
 	
 	@Getter
