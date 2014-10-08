@@ -3,8 +3,6 @@
  */
 package com.imos.dp;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -53,13 +51,6 @@ public class GuicePersistenceManagement {
 		}
 	}
 
-	@Override
-	protected void finalize() throws Throwable {
-		em.close();
-		this.service.stop();
-		super.finalize();
-	}
-
 	@Transactional
 	public void updateLevelStatus() {
 		Level level = null;
@@ -76,6 +67,6 @@ public class GuicePersistenceManagement {
 	}
 
 	void close() {
-		em.getEntityManagerFactory().close();
+		this.service.stop();
 	}
 }

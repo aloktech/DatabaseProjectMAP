@@ -3,6 +3,7 @@
  */
 package com.imos.dp.services;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,10 +42,13 @@ public class UserServices {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId", 1L);
-		boolean status = false;
+		boolean status = true;
 		if (status) {
 			sb.append(" and u.firstName = :firstName");
-			map.put("firstName", "Alok25");
+			map.put("firstName", "Alok22");
+			
+			sb.append(" and u.dateOfBirth = :dateOfBirth");
+			map.put("dateOfBirth", new Date());
 		}
 		
 		return hibernateService.getList(sb.toString(), map);

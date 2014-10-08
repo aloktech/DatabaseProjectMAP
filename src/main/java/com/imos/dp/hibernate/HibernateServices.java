@@ -63,15 +63,15 @@ public class HibernateServices<T> extends AbstractHibernateServices {
 	 */
 	@SuppressWarnings("unchecked")
 	public T findById(Class<T> cls, Long id) {
-		T t = null;
+		T object = null;
 		try {
 			beforeTransaction();
-			t = (T) session.get(cls, id);
+			object = (T) session.get(cls, id);
 			afterTransaction();
 		} catch (Exception e) {
 			log.warning(e.getMessage());
 		}
-		return t;
+		return object;
 	}
 
 	/**
