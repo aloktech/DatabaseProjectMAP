@@ -4,7 +4,7 @@
 package com.imos.dp.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,13 +38,15 @@ public class User implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="ID")
+	@Column(name="ID", nullable=false, unique=true)
 	private Long id;
 	
 	@Column(name="CRT_DATE")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 	
 	@Column(name="MOD_DATE")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDate;
 	
 	@Column(name="MOD_BY")
@@ -58,6 +62,7 @@ public class User implements Serializable {
 	private String lastName;
 	
 	@Column(name="DATE_OF_BIRTH")
+	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 
 	/*@Embedded

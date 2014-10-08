@@ -18,7 +18,7 @@ import com.imos.dp.model.Vehicle;
  * @author Pintu
  *
  */
-public class DatabaseGuicePersistenceManagement {
+public class GuicePersistenceManagement {
 
 	@Inject
 	private EntityManager em;
@@ -26,7 +26,7 @@ public class DatabaseGuicePersistenceManagement {
 	private PersistService service;
 
 	@Inject
-	public DatabaseGuicePersistenceManagement(PersistService service) {
+	public GuicePersistenceManagement(PersistService service) {
 		this.service = service;
 		this.service.start();
 	}
@@ -75,26 +75,6 @@ public class DatabaseGuicePersistenceManagement {
 		}
 	}
 
-	/**
-	 * 
-	 */
-	private void findAllLevelSize() {
-
-		System.out.println(em.createQuery("from Level l").getResultList().size());
-	}
-
-	/**
-	 * 
-	 */
-	private void findAllLevel() {
-
-		@SuppressWarnings("unchecked")
-		List<Level> list = em.createQuery("from Level l").getResultList();
-		for (Level l : list) {
-			System.out.println(l);
-		}
-	}
-	
 	void close() {
 		em.getEntityManagerFactory().close();
 	}

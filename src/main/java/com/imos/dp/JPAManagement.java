@@ -1,8 +1,8 @@
 package com.imos.dp;
 
-public class DatabaseJPAManagement {
+public class JPAManagement {
 
-	public DatabaseJPAManagement() {
+	public JPAManagement() {
 		// TODO Auto-generated constructor stub
 	}
 

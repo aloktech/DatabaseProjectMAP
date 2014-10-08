@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import lombok.Data;
+import lombok.extern.java.Log;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,6 +22,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
  *
  */
 @Data
+@Log
 public class HibernateUtility {
 
 	private static HibernateUtility instance = new HibernateUtility();
@@ -84,6 +86,8 @@ public class HibernateUtility {
 		if (createDatabase) {
 			new SchemaExport(cfg).create(true, true);
 		}
+		
+		log.info("Configured");
 	}
 
 	public Session createSession() {
@@ -102,7 +106,6 @@ public class HibernateUtility {
 			}
 			session = sessionFactory.openSession();
 		}
-
 		return session;
 	}
 
@@ -123,12 +126,6 @@ public class HibernateUtility {
 		if (session.isOpen()) {
 			session.clear();
 			session.close();
-		}
-
-		sessionFactory.close();
-
-		if (serviceRegistry != null) {
-			StandardServiceRegistryBuilder.destroy(serviceRegistry);
 		}
 	}
 }

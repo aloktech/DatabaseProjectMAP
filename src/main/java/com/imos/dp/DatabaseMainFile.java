@@ -1,51 +1,41 @@
 package com.imos.dp;
 
-import org.hibernate.Session;
-
 import com.imos.dp.model.User;
-import com.imos.dp.util.HibernateUtility;
+import com.imos.dp.services.UserServices;
 
 /**
  * @author Pintu
  *
  */
 public class DatabaseMainFile {
-
+	
 	public DatabaseMainFile() {
 		
-		HibernateUtility hu = HibernateUtility.getInstance();
-		
-		hu.setFilePath("src/main/java/com/imos/dp/model");
-		hu.setDatabaseName("learningdb");
-		hu.configure();
-		hu.createSession();
-		
-		Session session = hu.getSession();
+		UserServices userService = new UserServices();
 		
 		User user = new User();
-		user.setId(16L);
-		user.setFirstName("Alok2");
+		user.setFirstName("Alok22");
 		user.setLastName("Meher233");
 		
-		session.getTransaction().begin();
-		//session.persist(user);
-		session.merge(user);
-		//session.getTransaction().commit();
+		//userService.addNewUser(user);
 		
-		//session.getTransaction().begin();
-		//session.save(user);
-		//session.saveOrUpdate(user);
-		//session.update(user);
-		session.getTransaction().commit();
-		session.flush();
-		session.clear();
-		hu.close(session);
+		user = new User();
+		user.setFirstName("Alok24");
+		user.setLastName("Meher233");
+		
+		//userService.addNewUser(user);
+		
+		user = userService.getUserById(1L);
+		System.out.println(user.getFirstName());
+		
+		System.out.println(userService.getUser().size());
+		
+		userService.close();
 		
 	}
-
+	
 	public static void main(String[] args) {
 
 		new DatabaseMainFile();
-		
 	}
 }
