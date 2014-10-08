@@ -22,8 +22,8 @@ public class HibernateServices<T> extends AbstractHibernateServices {
 	 * @param map
 	 * @return
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<T> getList(String query, Map map) {
+	@SuppressWarnings({ "unchecked" })
+	public List<T> getList(String query, Map<String, Object> map) {
 		List<T> list = new ArrayList<>();
 		try {
 			session = getSession();

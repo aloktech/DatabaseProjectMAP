@@ -15,7 +15,7 @@ import org.hibernate.Transaction;
 @Log
 public abstract class AbstractHibernateServices {
 
-	protected HibernateConfiguration config;
+	private HibernateConfiguration config;
 	
 	private Transaction transaction;
 	
@@ -54,6 +54,7 @@ public abstract class AbstractHibernateServices {
 		} else if (!session.isOpen()) {
 			session = config.getHu().createSession();
 		}
+		
 		log.info("Session Created");
 		return session;
 	}

@@ -16,7 +16,7 @@ import com.imos.dp.model.User;
  */
 public class UserServices {
 	
-	private HibernateServices<User> hibernateService = new HibernateServices<>();
+	private final HibernateServices<User> hibernateService = new HibernateServices<>();
 	
 	public void addNewUser() {
 		User user = new User();
@@ -35,13 +35,11 @@ public class UserServices {
 		return hibernateService.findById(User.class, id);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<User> getUser() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("from User u where u.id = :userId");
 		
-		@SuppressWarnings("rawtypes")
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 		map.put("userId", 1L);
 		boolean status = false;
 		if (status) {

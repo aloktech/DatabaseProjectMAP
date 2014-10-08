@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.imos.dp.util;
+package com.imos.dp.hibernate;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,6 +16,10 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+
+import com.imos.dp.util.CommonUtility;
+import com.imos.dp.util.MysqlInfo;
+import com.imos.dp.util.ResourceBundleUtility;
 
 /**
  * @author Pintu

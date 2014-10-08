@@ -8,8 +8,6 @@ import lombok.extern.java.Log;
 
 import org.hibernate.Session;
 
-import com.imos.dp.util.HibernateUtility;
-
 /**
  * @author Pintu
  *
